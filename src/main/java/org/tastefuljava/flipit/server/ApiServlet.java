@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.tastefuljava.jsonia.JSon;
 
 @WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
 public class ApiServlet extends HttpServlet {
@@ -15,16 +16,10 @@ public class ApiServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (final PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ApiServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ApiServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            JSon.write(new Object() {
+                String auth = "oauth";
+                int value = 123;
+            }, out, true);
         }
     }
 
