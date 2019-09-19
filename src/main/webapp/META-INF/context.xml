@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/flipit-server">
     <ResourceLink global="jdbc/flipit" name="jdbc/flipit" type="javax.sql.DataSource"/>
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+         dataSourceName="jdbc/flipit" debug="99" localDataSource="true"
+         roleNameCol="ROLE" userCredCol="PASSWORD_HASH" userNameCol="EMAIL"
+         userRoleTable="rolemap" userTable="users" digest="SHA-256"
+         digestEncoding="UTF-8"/>
 </Context>
