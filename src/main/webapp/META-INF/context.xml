@@ -4,6 +4,7 @@
     <Realm className="org.apache.catalina.realm.DataSourceRealm"
          dataSourceName="jdbc/flipit" debug="99" localDataSource="true"
          roleNameCol="ROLE" userCredCol="PASSWORD_HASH" userNameCol="EMAIL"
-         userRoleTable="rolemap" userTable="users" digest="MD5"
-         digestEncoding="UTF-8"/>
+         userRoleTable="rolemap" userTable="users">
+        <CredentialHandler className="org.apache.catalina.realm.MessageDigestCredentialHandler" algorithm="SHA-256" />
+    </Realm>
 </Context>
