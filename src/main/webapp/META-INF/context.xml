@@ -4,6 +4,6 @@
     <Realm className="org.apache.catalina.realm.DataSourceRealm"
          dataSourceName="jdbc/flipit" debug="99" localDataSource="true"
          roleNameCol="ROLE" userCredCol="PASSWORD_HASH" userNameCol="EMAIL"
-         userRoleTable="rolemap" userTable="users" digest="SHA-256"
+         userRoleTable="rolemap" userTable="users" digest="MD5"
          digestEncoding="UTF-8"/>
 </Context>
