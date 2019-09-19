@@ -19,6 +19,9 @@ import org.tastefuljava.jsonia.JSon;
 
 @WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
 public class ApiServlet extends HttpServlet {
+    private static final Logger LOG
+            = Logger.getLogger(ApiServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,7 +31,7 @@ public class ApiServlet extends HttpServlet {
             try (Connection cnt = ds.getConnection()) {
                 
             } catch (SQLException ex) {
-                Logger.getLogger(ApiServlet.class.getName()).log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, null, ex);
             }
             response.setContentType("text/html;charset=UTF-8");
             try (final PrintWriter out = response.getWriter()) {
@@ -38,25 +41,7 @@ public class ApiServlet extends HttpServlet {
                 }, out, true);
             }
         }   catch (NamingException ex) {
-            Logger.getLogger(ApiServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (final PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ApiServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ApiServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            LOG.log(Level.SEVERE, null, ex);
         }
     }
 
