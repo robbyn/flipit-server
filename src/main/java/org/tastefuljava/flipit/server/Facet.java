@@ -1,18 +1,35 @@
 package org.tastefuljava.flipit.server;
 
 public class Facet {
-    public final int number;
-    public final String symbol;
-    public final String label;
+    private int userId;
+    private int number;
+    private String symbol;
+    private String label;
 
-    @Deprecated
     public Facet() {
-        this(0, null, null);
     }
 
-    public Facet(int number, String symbol, String label) {
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
         this.label = label;
     }
 }
