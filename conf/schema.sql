@@ -7,3 +7,12 @@ create table users (
 
 create view rolemap(EMAIL,ROLE) AS
     select EMAIL,'user' as ROLE from users;
+
+create table facets (
+    USER_ID integer not null,
+    NUMBER integer not null,
+    SYMBOL VARCHAR(16),
+    LABEL VARCHAR(16),
+    primary key (USER_ID, NUMBER),
+    foreign key (USER_ID) references users(ID)
+);
