@@ -30,14 +30,12 @@ public class User {
         this.email = email;
     }
 
+    public boolean checkPassword(String password) {
+        return hash(password).equals(passwordHash);
+    }
+
     public void setPassword(String password) {
-        try {
-            byte[] bytes = password.getBytes(DIGEST_ENCODING);
-            this.passwordHash = Util.hex(Util.hash(DIGEST_ALGORITHM, bytes));
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            throw new RuntimeException(ex.getMessage());
-        }
+        this.passwordHash = hash(password);
     }
 
     public String getDisplayName() {
@@ -50,5 +48,15 @@ public class User {
 
     public List<Facet> getFacets() {
         return facets;
+    }
+
+    private static String hash(String password) {
+        try {
+            byte[] bytes = password.getBytes(DIGEST_ENCODING);
+            return Util.hex(Util.hash(DIGEST_ALGORITHM, bytes));
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex.getMessage());
+        }
     }
 }
