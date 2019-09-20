@@ -1,12 +1,20 @@
 package org.tastefuljava.flipit.server;
 
 public class Facet {
-    private int userId;
+    private User user;
     private int number;
     private String symbol;
     private String label;
 
     public Facet() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getNumber() {
