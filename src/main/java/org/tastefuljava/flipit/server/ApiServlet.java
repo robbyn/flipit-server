@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import org.tastefuljava.flipit.persistence.Persistence;
 import org.tastefuljava.jsonia.JSon;
 
 @WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
@@ -28,7 +29,7 @@ public class ApiServlet extends HttpServlet {
         try {
             Context cxt = new InitialContext();
             DataSource ds = (DataSource)cxt.lookup("java:/comp/env/jdbc/flipit");
-            try (Connection cnt = ds.getConnection()) {
+            try (Persistence pm = new Persistence(ds)) {
                 
             } catch (SQLException ex) {
                 LOG.log(Level.SEVERE, null, ex);

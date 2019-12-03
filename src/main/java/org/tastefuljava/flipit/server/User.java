@@ -22,6 +22,10 @@ public class User {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -32,6 +36,10 @@ public class User {
 
     public boolean checkPassword(String password) {
         return hash(password).equals(passwordHash);
+    }
+
+    public void setPasswordHash(String hash) {
+        this.passwordHash = hash;
     }
 
     public void setPassword(String password) {
@@ -47,7 +55,11 @@ public class User {
     }
 
     public List<Facet> getFacets() {
-        return facets;
+        return new ArrayList<>(facets);
+    }
+
+    public void addFacet(Facet facet) {
+        facets.add(facet);
     }
 
     private static String hash(String password) {
