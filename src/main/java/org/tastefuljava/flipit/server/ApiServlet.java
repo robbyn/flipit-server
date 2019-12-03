@@ -30,9 +30,6 @@ public class ApiServlet extends HttpServlet {
             Context cxt = new InitialContext();
             DataSource ds = (DataSource)cxt.lookup("java:/comp/env/jdbc/flipit");
             try (Persistence pm = new Persistence(ds)) {
-                
-            } catch (SQLException ex) {
-                LOG.log(Level.SEVERE, null, ex);
             }
             response.setContentType("text/html;charset=UTF-8");
             try (final PrintWriter out = response.getWriter()) {
@@ -41,7 +38,7 @@ public class ApiServlet extends HttpServlet {
                     int value = 123;
                 }, out, true);
             }
-        }   catch (NamingException ex) {
+        } catch (NamingException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
