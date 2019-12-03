@@ -35,6 +35,15 @@ public class Persistence implements AutoCloseable {
         }
     }
 
+    public void commit() {
+        try {
+            cnt.commit();
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(ex.getMessage());
+        }
+    }
+
     public User getUser(String email) {
         User user;
         try (PreparedStatement stmt = cnt.prepareStatement(
