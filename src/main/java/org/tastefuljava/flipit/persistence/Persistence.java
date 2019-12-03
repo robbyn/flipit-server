@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.tastefuljava.flipit.server.Facet;
 import org.tastefuljava.flipit.server.User;
@@ -16,7 +19,18 @@ public class Persistence implements AutoCloseable {
 
     private final Connection cnt;
 
-    public Persistence(DataSource ds) {
+    public static Persistence open() {
+        try {
+            Context cxt = new InitialContext();
+            DataSource ds = (DataSource)cxt.lookup("java:/comp/env/jdbc/flipit");
+            return new Persistence(ds);
+        } catch (NamingException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(ex.getMessage());
+        }
+    }
+
+    private Persistence(DataSource ds) {
         try {
             this.cnt = ds.getConnection();
         } catch (SQLException ex) {

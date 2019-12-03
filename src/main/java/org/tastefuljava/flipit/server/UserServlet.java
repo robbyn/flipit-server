@@ -4,40 +4,35 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import org.tastefuljava.flipit.persistence.Persistence;
 import org.tastefuljava.jsonia.JSon;
 
-@WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
-public class ApiServlet extends HttpServlet {
+@WebServlet(name = "UserServlet", urlPatterns = {"/api/user"})
+public class UserServlet extends HttpServlet {
     private static final Logger LOG
-            = Logger.getLogger(ApiServlet.class.getName());
+            = Logger.getLogger(UserServlet.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Context cxt = new InitialContext();
-            DataSource ds = (DataSource)cxt.lookup("java:/comp/env/jdbc/flipit");
-            try (Persistence pm = new Persistence(ds)) {
+            User user;
+            try (Persistence pm = Persistence.open()) {
+                user = pm.getUser(request.getRemoteUser());
             }
             response.setContentType("text/html;charset=UTF-8");
             try (final PrintWriter out = response.getWriter()) {
-                JSon.write(new Object() {
-                    String auth = "oauth";
-                    int value = 123;
-                }, out, true);
+                JSon.write(user, out, true);
             }
-        } catch (NamingException ex) {
+        } catch (Throwable ex) {
             LOG.log(Level.SEVERE, null, ex);
+            response.sendError(500);
         }
     }
 
