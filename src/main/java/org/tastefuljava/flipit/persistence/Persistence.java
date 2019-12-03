@@ -11,6 +11,9 @@ import org.tastefuljava.flipit.server.Facet;
 import org.tastefuljava.flipit.server.User;
 
 public class Persistence implements AutoCloseable {
+    private static final Logger LOG
+            = Logger.getLogger(Persistence.class.getName());
+
     private final Connection cnt;
 
     public Persistence(DataSource ds) {
@@ -31,7 +34,6 @@ public class Persistence implements AutoCloseable {
             throw new PersistenceException(ex.getMessage());
         }
     }
-    private static final Logger LOG = Logger.getLogger(Persistence.class.getName());
 
     public User getUser(String email) {
         User user;
