@@ -38,8 +38,16 @@ public class User {
         return hash(password).equals(passwordHash);
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
     public void setPasswordHash(String hash) {
         this.passwordHash = hash;
+    }
+
+    public String getPassword() {
+        return null;
     }
 
     public void setPassword(String password) {
@@ -60,6 +68,10 @@ public class User {
 
     public void addFacet(Facet facet) {
         facets.add(facet);
+    }
+
+    public void clearFacets() {
+        facets.clear();
     }
 
     private static String hash(String password) {

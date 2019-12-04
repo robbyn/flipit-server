@@ -32,7 +32,8 @@ public class Persistence implements AutoCloseable {
 
     private Persistence(DataSource ds) {
         try {
-            this.cnt = ds.getConnection();
+            cnt = ds.getConnection();
+            cnt.setAutoCommit(false);
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
             throw new PersistenceException(ex.getMessage());
@@ -86,7 +87,6 @@ public class Persistence implements AutoCloseable {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     user.addFacet(new Facet(
-                            rs.getInt(2),
                             rs.getString(3),
                             rs.getString(4)));
                 }
@@ -96,5 +96,31 @@ public class Persistence implements AutoCloseable {
             throw new PersistenceException(ex.getMessage());
         }
         return user;
+    }
+
+    public void updateFacets(User user) {
+        try (PreparedStatement stmt = cnt.prepareStatement(
+                "delete from facets where USER_ID=?")) {
+            stmt.setInt(1, user.getId());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(ex.getMessage());
+        }
+        try (PreparedStatement stmt = cnt.prepareStatement(
+                "insert into facets(USER_ID,NUMBER,SYMBOL,LABEL) "
+                + "values(?,?,?,?)")) {
+            int i = 0;
+            for (Facet facet: user.getFacets()) {
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, i++);
+                stmt.setString(3, facet.getSymbol());
+                stmt.setString(4, facet.getLabel());
+                stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(ex.getMessage());
+        }
     }
 }

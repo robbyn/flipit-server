@@ -1,25 +1,15 @@
 package org.tastefuljava.flipit.server;
 
 public class Facet {
-    private int number;
     private String symbol;
     private String label;
 
     public Facet() {
     }
 
-    public Facet(int number, String symbol, String label) {
-        this.number = number;
+    public Facet(String symbol, String label) {
         this.symbol = symbol;
         this.label = label;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public String getSymbol() {
