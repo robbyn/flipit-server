@@ -1,4 +1,4 @@
-package org.tastefuljava.flipit.server;
+package org.tastefuljava.flipit.data;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.tastefuljava.flipit.server.Util;
 
 public class User {
     private static final Charset DIGEST_ENCODING = StandardCharsets.UTF_8;

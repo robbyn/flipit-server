@@ -1,4 +1,4 @@
-package org.tastefuljava.flipit.server;
+package org.tastefuljava.flipit.data;
 
 public class Facet {
     private String symbol;

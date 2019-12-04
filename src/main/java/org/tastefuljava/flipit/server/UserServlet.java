@@ -1,5 +1,7 @@
 package org.tastefuljava.flipit.server;
 
+import org.tastefuljava.flipit.data.Facet;
+import org.tastefuljava.flipit.data.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;

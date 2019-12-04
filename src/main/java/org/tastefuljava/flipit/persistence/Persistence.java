@@ -12,9 +12,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.tastefuljava.flipit.server.Activity;
-import org.tastefuljava.flipit.server.Facet;
-import org.tastefuljava.flipit.server.User;
+import org.tastefuljava.flipit.data.Activity;
+import org.tastefuljava.flipit.data.Facet;
+import org.tastefuljava.flipit.data.User;
 
 public class Persistence implements AutoCloseable {
     private static final Logger LOG
