@@ -3,8 +3,63 @@
     <head>
         <title>FlipIt API</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     </head>
     <body>
-        <h1>FlipIt API</h1>
+        <section class="section">
+          <div class="container">
+            <h1 class="title">
+              FlipIt API
+            </h1>
+            <p></p>
+          </div>
+        </section>
+        <section class="section">
+          <div class="container">
+            <h1 class="title">
+              Facettes
+            </h1>
+            <div class="facets"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="container">
+            <h1 class="title">
+              Activités
+            </h1>
+            <div class="activities"></div>
+          </div>
+        </section>
+        <script type="text/x-handlebars-template" id="facetTable">
+            <table>
+            <tbody>
+            {{#each facets}}
+            <tr><td class="fas">{{symbol}}</td><td>{{label}}</td></tr>
+            {{/each}}
+            </tbody>
+            </table>
+        </script>
+        <script type="text/x-handlebars-template" id="activityTable">
+            <table>
+            <tbody>
+            {{#each activities}}
+            <tr>
+                <td>{{startTime}}</td>
+                {{#with (index ../user.facets facetNumber)}}
+                <td class="fas">{{symbol}}</td>
+                <td>{{label}}</td>
+                {{/with}}
+                <td>{{comment}}</td>
+            </tr>
+            {{/each}}
+            </tbody>
+            </table>
+        </script>
+        <script src="js/jquery.js"></script>
+        <script src="js/handlebars.js"></script>
+        <script src="js/index.js"></script>
     </body>
 </html>

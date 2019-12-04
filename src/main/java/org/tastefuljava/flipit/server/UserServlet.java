@@ -20,14 +20,14 @@ public class UserServlet extends HttpServlet {
             = Logger.getLogger(UserServlet.class.getName());
 
     private static final Facet[] DEFAULT_FACETS = {
-        new Facet("\uf79f", "Apéro"),
-        new Facet("\uf7c9", "Ski"),
-        new Facet("\uf7c5", "Patin"),
+        new Facet("\uf000", "Apéro"),
+        new Facet("\uf083", "Photographie"),
+        new Facet("\uf008", "Cinéma"),
         new Facet("\uf45d", "Ping pong"),
         new Facet("\uf45f", "Volleyball"),
-        new Facet("\uf6ec", "Randonnée"),
+        new Facet("\uf1e3", "Football"),
         new Facet("\uf188", "Debug"),
-        new Facet("\uf7a6", "Guitare"),
+        new Facet("\uf075", "Discussion"),
         new Facet("\uf441", "Échecs"),
         new Facet("\uf206", "Cyclisme"),
         new Facet("\uf2b6", "Courier"),

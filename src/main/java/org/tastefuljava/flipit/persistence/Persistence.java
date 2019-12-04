@@ -1,5 +1,6 @@
 package org.tastefuljava.flipit.persistence;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +22,8 @@ import org.tastefuljava.flipit.data.User;
 public class Persistence implements AutoCloseable {
     private static final Logger LOG
             = Logger.getLogger(Persistence.class.getName());
+    private static final Field PASSWORD_HASH
+            = accessField(User.class, "passwordHash");
 
     private final Connection cnt;
 
@@ -77,11 +80,13 @@ public class Persistence implements AutoCloseable {
                     user = new User();
                     user.setId(rs.getInt(1));
                     user.setEmail(rs.getString(2));
-                    user.setPasswordHash(rs.getString(3));
+                    PASSWORD_HASH.set(user,rs.getString(3));
                     user.setDisplayName(rs.getString(4));
                 }
             }
-        } catch (SQLException ex) {
+        } catch (IllegalArgumentException
+                | IllegalAccessException
+                | SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
             throw new PersistenceException(ex.getMessage());
         }
@@ -211,6 +216,17 @@ public class Persistence implements AutoCloseable {
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
             throw new PersistenceException(ex.getMessage());
+        }
+    }
+
+    private static Field accessField(Class<User> aClass, String name) {
+        try {
+            Field field = aClass.getDeclaredField(name);
+            field.setAccessible(true);
+            return field;
+        } catch (NoSuchFieldException | SecurityException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new IllegalStateException(ex.getMessage());
         }
     }
 }

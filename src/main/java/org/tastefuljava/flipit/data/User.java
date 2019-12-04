@@ -15,7 +15,7 @@ public class User {
 
     private int id;
     private String email;
-    private String passwordHash;
+    private transient String passwordHash;
     private String displayName;
     private final List<Facet> facets = new ArrayList<>();
 
@@ -37,14 +37,6 @@ public class User {
 
     public boolean checkPassword(String password) {
         return hash(password).equals(passwordHash);
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String hash) {
-        this.passwordHash = hash;
     }
 
     public String getPassword() {
