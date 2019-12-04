@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,6 +57,9 @@ public class UserServlet extends HttpServlet {
             try (final PrintWriter out = resp.getWriter()) {
                 JSon.write(user, out, true);
             }
+        } catch (HttpException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+            resp.sendError(ex.getStatus());
         } catch (Throwable ex) {
             LOG.log(Level.SEVERE, null, ex);
             resp.sendError(500);
