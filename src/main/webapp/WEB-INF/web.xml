@@ -14,7 +14,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>FlipIt API</web-resource-name>
-            <url-pattern>/api/*</url-pattern>
+            <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>user</role-name>
