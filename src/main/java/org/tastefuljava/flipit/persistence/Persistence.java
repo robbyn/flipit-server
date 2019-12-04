@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.tastefuljava.flipit.server.Activity;
 import org.tastefuljava.flipit.server.Facet;
 import org.tastefuljava.flipit.server.User;
 
@@ -118,6 +121,56 @@ public class Persistence implements AutoCloseable {
                 stmt.setString(4, facet.getLabel());
                 stmt.executeUpdate();
             }
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(ex.getMessage());
+        }
+    }
+
+    public Activity lastActivity(User user) {
+        try (PreparedStatement stmt = cnt.prepareStatement(
+                "select USER_ID,START_TIME,FACET_NUMBER,COMMENT "
+                + "from activities "
+                + "where USER_ID=? "
+                + "order by USER_ID,START_TIME desc")) {
+            stmt.setMaxRows(1);
+            stmt.setInt(1, user.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                } else {
+                    Activity act = new Activity();
+                    act.setUser(user);
+                    act.setStartTime(new Date(rs.getTimestamp(2).getTime()));
+                    act.setFacetNumber(rs.getInt(3));
+                    act.setComment(rs.getString(4));
+                    return act;
+                }
+            }
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(ex.getMessage());
+        }
+    }
+
+    public void logActivity(Activity act) {
+        if (act == null) {
+            throw new IllegalArgumentException("Activity is null");
+        } else if (act.getUser() == null) {
+            throw new IllegalArgumentException(
+                    "Incomplete activity: user is null");
+        } else if (act.getStartTime() == null) {
+            throw new IllegalArgumentException(
+                    "Incomplete activity: start time is null");
+        }
+        try (PreparedStatement stmt = cnt.prepareStatement(
+                "insert into activities(USER_ID,START_TIME,FACET_NUMBER,COMMENT) "
+                + "values(?,?,?,?)")) {
+            stmt.setInt(1, act.getUser().getId());
+            stmt.setTimestamp(2, new Timestamp(act.getStartTime().getTime()));
+            stmt.setInt(3, act.getFacetNumber());
+            stmt.setString(4, act.getComment());
+            stmt.executeUpdate();
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
             throw new PersistenceException(ex.getMessage());

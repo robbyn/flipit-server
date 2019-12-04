@@ -66,6 +66,14 @@ public class User {
         return new ArrayList<>(facets);
     }
 
+    public Facet getFacet(int index) {
+        if (index < 0 || index >= facets.size()) {
+            return null;
+        } else {
+            return facets.get(index);
+        }
+    }
+
     public void addFacet(Facet facet) {
         facets.add(facet);
     }
@@ -83,4 +91,5 @@ public class User {
             throw new RuntimeException(ex.getMessage());
         }
     }
+
 }
