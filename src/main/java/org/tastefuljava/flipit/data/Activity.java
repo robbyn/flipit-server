@@ -3,26 +3,9 @@ package org.tastefuljava.flipit.data;
 import java.util.Date;
 
 public class Activity {
-    private User user;
     private int facetNumber;
     private Date startTime;
     private String comment;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Facet getFacet() {
-        if (user == null) {
-            return null;
-        } else {
-            return user.getFacet(facetNumber);
-        }
-    }
 
     public int getFacetNumber() {
         return facetNumber;

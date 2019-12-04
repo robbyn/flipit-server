@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -140,7 +142,6 @@ public class Persistence implements AutoCloseable {
                     return null;
                 } else {
                     Activity act = new Activity();
-                    act.setUser(user);
                     act.setStartTime(new Date(rs.getTimestamp(2).getTime()));
                     act.setFacetNumber(rs.getInt(3));
                     act.setComment(rs.getString(4));
@@ -153,10 +154,46 @@ public class Persistence implements AutoCloseable {
         }
     }
 
-    public void logActivity(Activity act) {
+    public List<Activity> queryActivities(User user, Date from, Date to) {
+        if (user == null) {
+            throw new IllegalArgumentException(
+                    "Incomplete activity query: user is null");
+        } else if (from == null) {
+            throw new IllegalArgumentException(
+                    "Incomplete activity query: from is null");
+        } else if (to == null) {
+            throw new IllegalArgumentException(
+                    "Incomplete activity query: to is null");
+        }
+        try (PreparedStatement stmt = cnt.prepareStatement(
+                "select USER_ID,START_TIME,FACET_NUMBER,COMMENT "
+                + "from activities "
+                + "where USER_ID=? and START_TIME between ? and ? "
+                + "order by USER_ID,START_TIME desc")) {
+            stmt.setInt(1, user.getId());
+            stmt.setTimestamp(2, new Timestamp(from.getTime()));
+            stmt.setTimestamp(3, new Timestamp(to.getTime()));
+            try (ResultSet rs = stmt.executeQuery()) {
+                List<Activity> result = new ArrayList<>();
+                while (rs.next()) {
+                    Activity act = new Activity();
+                    act.setStartTime(new Date(rs.getTimestamp(2).getTime()));
+                    act.setFacetNumber(rs.getInt(3));
+                    act.setComment(rs.getString(4));
+                    result.add(act);
+                }
+                return result;
+            }
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(ex.getMessage());
+        }
+    }
+
+    public void logActivity(User user, Activity act) {
         if (act == null) {
             throw new IllegalArgumentException("Activity is null");
-        } else if (act.getUser() == null) {
+        } else if (user == null) {
             throw new IllegalArgumentException(
                     "Incomplete activity: user is null");
         } else if (act.getStartTime() == null) {
@@ -166,7 +203,7 @@ public class Persistence implements AutoCloseable {
         try (PreparedStatement stmt = cnt.prepareStatement(
                 "insert into activities(USER_ID,START_TIME,FACET_NUMBER,COMMENT) "
                 + "values(?,?,?,?)")) {
-            stmt.setInt(1, act.getUser().getId());
+            stmt.setInt(1, user.getId());
             stmt.setTimestamp(2, new Timestamp(act.getStartTime().getTime()));
             stmt.setInt(3, act.getFacetNumber());
             stmt.setString(4, act.getComment());

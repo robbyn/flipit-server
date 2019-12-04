@@ -20,7 +20,7 @@ public class UserServlet extends HttpServlet {
     private static final Logger LOG
             = Logger.getLogger(UserServlet.class.getName());
 
-    private static Facet[] DEFAULT_FACETS = {
+    private static final Facet[] DEFAULT_FACETS = {
         new Facet("\uf79f", "Apéro"),
         new Facet("\uf7c9", "Ski"),
         new Facet("\uf7c5", "Patin"),
@@ -36,13 +36,13 @@ public class UserServlet extends HttpServlet {
     };
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            String path = request.getPathInfo();
+            String path = req.getPathInfo();
             User user;
             try (Persistence pm = Persistence.open()) {
-                user = pm.getUser(request.getRemoteUser());
+                user = pm.getUser(req.getRemoteUser());
                 if (path == null) {
                 } else if (path.equals("/default-facets")) {
                     user.clearFacets();
@@ -53,18 +53,19 @@ public class UserServlet extends HttpServlet {
                     pm.commit();
                 }
             }
-            response.setContentType("text/html;charset=UTF-8");
-            try (final PrintWriter out = response.getWriter()) {
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            try (final PrintWriter out = resp.getWriter()) {
                 JSon.write(user, out, true);
             }
         } catch (Throwable ex) {
             LOG.log(Level.SEVERE, null, ex);
-            response.sendError(500);
+            resp.sendError(500);
         }
     }
 
     @Override
     public String getServletInfo() {
-        return "FlipIt API";
+        return "FlipIt User API";
     }
 }
