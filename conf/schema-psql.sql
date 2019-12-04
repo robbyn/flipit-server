@@ -16,3 +16,12 @@ create table facets (
     primary key (USER_ID, NUMBER),
     foreign key (USER_ID) references users(ID)
 );
+
+create table activities (
+    USER_ID integer not null,
+    START_TIME timestamp not null,
+    FACET_NUMBER integer not null,
+    COMMENT text,
+    primary key (USER_ID,START_TIME),
+    foreign key (USER_ID) references users(ID)
+);
