@@ -84,5 +84,4 @@ public class User {
             throw new RuntimeException(ex.getMessage());
         }
     }
-
 }
