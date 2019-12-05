@@ -110,12 +110,6 @@ public class ActivityServlet extends HttpServlet {
             act.setFacetNumber(facetNumber);
             act.setStartTime(new Date());
             s = req.getParameter("comment");
-            if (s == null) {
-                Facet facet = user.getFacet(facetNumber);
-                if (facet != null) {
-                    s = facet.getLabel();
-                }
-            }
             act.setComment(s);
             pm.logActivity(user, act);
             pm.commit();

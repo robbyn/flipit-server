@@ -35,23 +35,22 @@
           </div>
         </section>
         <script type="text/x-handlebars-template" id="facetTable">
-            <table>
+            <table class="table">
             <tbody>
             {{#each facets}}
-            <tr><td class="fas">{{symbol}}</td><td>{{label}}</td></tr>
+            <tr><td><span class="fas">{{symbol}}</span></td><td>{{label}}</td></tr>
             {{/each}}
             </tbody>
             </table>
         </script>
         <script type="text/x-handlebars-template" id="activityTable">
-            <table>
+            <table class="table">
             <tbody>
             {{#each activities}}
             <tr>
                 <td>{{startTime}}</td>
                 {{#with (index ../user.facets facetNumber)}}
-                <td class="fas">{{symbol}}</td>
-                <td>{{label}}</td>
+                <td><span class="fas">{{symbol}}</span></td><td>{{label}}</td>
                 {{/with}}
                 <td>{{comment}}</td>
             </tr>
