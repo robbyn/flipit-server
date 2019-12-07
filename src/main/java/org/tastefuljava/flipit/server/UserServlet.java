@@ -1,5 +1,6 @@
 package org.tastefuljava.flipit.server;
 
+import java.io.BufferedReader;
 import org.tastefuljava.flipit.data.Facet;
 import org.tastefuljava.flipit.data.User;
 import java.io.IOException;
@@ -47,6 +48,41 @@ public class UserServlet extends HttpServlet {
                     user.clearFacets();
                     for (Facet facet: DEFAULT_FACETS) {
                         user.addFacet(facet);
+                    }
+                    pm.updateFacets(user);
+                    pm.commit();
+                }
+            }
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            try (final PrintWriter out = resp.getWriter()) {
+                JSon.write(user, out, true);
+            }
+        } catch (HttpException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+            resp.sendError(ex.getStatus());
+        } catch (Throwable ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            resp.sendError(500);
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        try {
+            String path = req.getPathInfo();
+            User user;
+            try (Persistence pm = Persistence.open()) {
+                user = pm.getUser(req.getRemoteUser());
+                if (path == null) {
+                } else if (path.equals("/facets")) {
+                    try (BufferedReader in = req.getReader()) {
+                        Facet[] facets = JSon.read(in, Facet[].class);
+                        user.clearFacets();
+                        for (Facet facet: facets) {
+                            user.addFacet(facet);
+                        }
                     }
                     pm.updateFacets(user);
                     pm.commit();

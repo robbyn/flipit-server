@@ -14,17 +14,12 @@
         <section class="section">
           <div class="container">
             <h1 class="title">
-              FlipIt API
-            </h1>
-            <p></p>
-          </div>
-        </section>
-        <section class="section">
-          <div class="container">
-            <h1 class="title">
               Facettes
             </h1>
-            <div class="facets"></div>
+            <form id="facetForm">
+                <div class="facets"></div>
+                <input type="submit" value="Enregistrer" />
+            </form>
           </div>
         </section>
         <section class="section">
@@ -39,7 +34,11 @@
             <table class="table">
             <tbody>
             {{#each facets}}
-            <tr><td><span class="fas">{{symbol}}</span></td><td>{{label}}</td></tr>
+            <tr>
+            <td><input type="number" name="ix{{@index}}" value="{{@index}}" maxlength="2" /></td>
+            <td><span class="fas">{{symbol}}</span></td>
+            <td>{{label}}</td>
+            </tr>
             {{/each}}
             </tbody>
             </table>
