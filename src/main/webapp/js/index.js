@@ -15,30 +15,28 @@ $(function() {
     $.ajax({
         type: "GET",
         url: "api/user",
-        dataType: "json",
-        success: function(user) {
-            console.log(user);
-            var table = templates.facetTable(user);
-            console.log(table);
-            $(".facets").html(table);
-            loadActivities(user);
-        }
+        dataType: "json"
+    }).done(function(user) {
+        console.log(user);
+        var table = templates.facetTable(user);
+        console.log(table);
+        $(".facets").html(table);
+        loadActivities(user);
     });
 
     function loadActivities(user) {
         $.ajax({
             type: "GET",
             url: "api/activity",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                var table = templates.activityTable({
-                    user: user,
-                    activities: data
-                });
-                console.log(table);
-                $(".activities").html(table);
-            }
+            dataType: "json"
+        }).done(function(data) {
+            console.log(data);
+            var table = templates.activityTable({
+                user: user,
+                activities: data
+            });
+            console.log(table);
+            $(".activities").html(table);
         });
     }
 });
