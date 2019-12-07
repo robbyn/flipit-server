@@ -70,6 +70,7 @@
     </dependencies>
 
     <build>
+        <finalName>flipit-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
