@@ -1,4 +1,12 @@
 $(function() {
+    var DEG2RAD = 2*Math.PI/360;
+    var DEG36 = 36*DEG2RAD;
+    var COS36 = Math.cos(DEG36);
+    var SIN36 = Math.sin(DEG36);
+    var DEG72 = 72*DEG2RAD;
+    var SIN72 = Math.sin(DEG72);
+    var COS72 = Math.cos(DEG72);
+
     var currentUser = null;
     $(document).on("submit", "#facetForm", function(e) {
         e.preventDefault();
@@ -70,6 +78,44 @@ $(function() {
             });
             console.log(table);
             $(".activities").html(table);
+            drawPentagon();
         });
+    }
+
+    function drawPentagon() {
+        var margin = {top: 20, right: 20, bottom: 20, left: 20}
+        var $cont = $("#pentagon");
+        var width = $cont.width();
+        var height = $cont.height();
+        var hi = height-margin.top-margin.bottom;
+        var wi = width-margin.left-margin.right;
+        var rh = hi/(COS36+1);
+        var rw = wi/(2*SIN72);
+        var r = Math.min(rh, rw);
+        var xm = margin.left+wi/2;
+        var ym = margin.top+(hi-(r*(1+COS36)))/2;
+        var poly = [
+            {x: xm+(r*SIN36), y: ym},
+            {x: xm+(r*SIN72), y: ym+(r*(COS36+COS72))},
+            {x: xm, y: ym+(r*(COS36+1))},
+            {x: xm-(r*SIN72), y: ym+(r*(COS36+COS72))},
+            {x: xm-(r*SIN36), y: ym},
+        ];
+        var points = poly.map(function(p) {
+            return [p.x,p.y].join(",");
+        }).join(" ");
+        d3.select("#pentagon svg").remove();
+        var svg = d3.select("#pentagon").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+//                .attr("transform",
+//                        "translate(" + margin.left + "," + margin.top + ")")
+                .append("polygon")
+                .attr("points",points)
+                .attr("stroke","black")
+                .attr("stroke-width",8)
+                .attr("fill", "none")
+                .attr("stroke-linejoin", "round");
     }
 });
