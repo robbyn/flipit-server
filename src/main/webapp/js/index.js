@@ -5,10 +5,10 @@ $(function() {
         }
     });
 
-    var msg = {};
+    var templates = {};
     $('script[type="text/x-handlebars-template"]').each(function() {
         var $this = $(this);
-        msg[$this.attr("id")] =
+        templates[$this.attr("id")] =
                 Handlebars.compile($this.html());
     });
 
@@ -18,7 +18,7 @@ $(function() {
         dataType: "json",
         success: function(user) {
             console.log(user);
-            var table = msg.facetTable(user);
+            var table = templates.facetTable(user);
             console.log(table);
             $(".facets").html(table);
             loadActivities(user);
@@ -32,7 +32,10 @@ $(function() {
             dataType: "json",
             success: function(data) {
                 console.log(data);
-                var table = msg.activityTable({user: user, activities: data});
+                var table = templates.activityTable({
+                    user: user,
+                    activities: data
+                });
                 console.log(table);
                 $(".activities").html(table);
             }
