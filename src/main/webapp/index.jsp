@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -49,9 +50,13 @@
             {{#each activities}}
             <tr>
                 <td>{{startTime}}</td>
-                {{#with (index ../user.facets facetNumber)}}
+                {{#if (isNumber facetNumber)}}
+                {{#with (itemAt ../user.facets facetNumber)}}
                 <td><span class="fas">{{symbol}}</span></td><td>{{label}}</td>
                 {{/with}}
+                {{else}}
+                <td></td><td></td>
+                {{/if}}
                 <td>{{comment}}</td>
             </tr>
             {{/each}}

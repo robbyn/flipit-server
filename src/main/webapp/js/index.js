@@ -1,8 +1,11 @@
 $(function() {
-    Handlebars.registerHelper('index', function(o, p) {
+    Handlebars.registerHelper('itemAt', function(o, p) {
         if (o && typeof p !== 'undefined') {
             return o[p];
         }
+    });
+    Handlebars.registerHelper('isNumber', function(x) {
+        return typeof x === 'number';
     });
 
     var templates = {};
