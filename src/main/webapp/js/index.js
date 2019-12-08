@@ -35,6 +35,7 @@ $(function() {
         const table = templates.facetTable(user);
         console.log(table);
         $(".facets").html(table);
+        drawPentagon("");
         loadActivities(user);
     });
 
@@ -53,8 +54,15 @@ $(function() {
             $(".activities").html(table);
             const symbol = (activities && activities.length > 0) ?
                 facetSymbol(user, activities[0].facetNumber) : "";
-            drawPentagon(symbol);
+            $("#facetSymbol").text(symbol);
+            setTimeout(refreshActivities, 2000);
         });
+    }
+
+    function refreshActivities() {
+        if (currentUser) {
+            loadActivities(currentUser);
+        }
     }
 
     function facetSymbol(user, facetNumber) {
