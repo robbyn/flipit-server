@@ -24,10 +24,7 @@
                             <h1 class="title">
                                 Facettes
                             </h1>
-                            <form id="facetForm">
-                                <div class="facets"></div>
-                                <input type="submit" value="Enregistrer" />
-                            </form>
+                            <div class="facets"></div>
                         </article>
                     </div>
                     <div class="tile is-parent">
@@ -46,7 +43,6 @@
             <tbody>
             {{#each facets}}
             <tr>
-            <td><input type="number" name="ix{{@index}}" value="{{@index}}" maxlength="2" /></td>
             <td><span class="fas">{{symbol}}</span></td>
             <td>{{label}}</td>
             </tr>
