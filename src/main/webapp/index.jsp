@@ -15,7 +15,10 @@
             <div class="container">
                 <div class="tile is-vertical">
                     <div class="tile is-parent">
-                        <article id="pentagon" class="tile is-child is-4">
+                        <article class="tile is-child is-4">
+                            <div id="pentagon">
+                                
+                            </div>
                         </article>
                         <article class="tile is-child">
                             <h1 class="title">

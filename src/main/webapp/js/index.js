@@ -70,19 +70,35 @@ $(function() {
             type: "GET",
             url: "api/activity",
             dataType: "json"
-        }).done(function(data) {
-            console.log(data);
+        }).done(function(activities) {
+            console.log(activities);
             var table = templates.activityTable({
                 user: user,
-                activities: data
+                activities: activities
             });
             console.log(table);
             $(".activities").html(table);
-            drawPentagon();
+            var symbol = "";
+            if (activities && activities.length > 0) {
+                symbol = facetSymbol(user, activities[0].facetNumber);
+            }
+            drawPentagon(symbol);
         });
     }
 
-    function drawPentagon() {
+    function facetSymbol(user, facetNumber) {
+        var facets = user && user.facets;
+        if (facets && typeof facetNumber === "number" &&
+                        facetNumber >= 0 && facetNumber < facets.length) {
+            var s = facets[facetNumber].symbol;
+            if (s) {
+                return s;
+            }
+        }
+        return "";
+    }
+
+    function drawPentagon(symbol) {
         var margin = {top: 20, right: 20, bottom: 20, left: 20}
         var $cont = $("#pentagon");
         var width = $cont.width();
@@ -108,12 +124,19 @@ $(function() {
         var svg = d3.select("#pentagon").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .append("polygon")
+                .append("g");
+        svg.append("polygon")
                 .attr("points",points)
                 .attr("stroke","black")
                 .attr("stroke-width",8)
                 .attr("fill", "none")
                 .attr("stroke-linejoin", "round");
+        svg.append("text")
+                .text(symbol)
+                .attr("id", "facetSymbol")
+                .attr("x", xm)
+                .attr("y", ym+(r*COS36))
+                .style("text-anchor", "middle")
+                .style("alignment-baseline", "middle");
     }
 });
