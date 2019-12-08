@@ -36,11 +36,25 @@ public class Util {
         return cal.getTime();
     }
 
+    public static Date startOfDay(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
     public static Date parseDate(String s) throws ParseException {
         if (s == null) {
             return null;
         }
         DateFormat fmt = new SimpleDateFormat(DATE_FORMAT);
         return fmt.parse(s);
+    }
+
+    public static boolean isBlank(String s) {
+        return s == null || s.trim().length() == 0;
     }
 }

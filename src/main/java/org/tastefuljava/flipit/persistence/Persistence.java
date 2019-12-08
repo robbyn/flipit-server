@@ -173,7 +173,7 @@ public class Persistence implements AutoCloseable {
         try (PreparedStatement stmt = cnt.prepareStatement(
                 "select USER_ID,START_TIME,FACET_NUMBER,COMMENT "
                 + "from activities "
-                + "where USER_ID=? and START_TIME between ? and ? "
+                + "where USER_ID=? and START_TIME>=? and START_TIME <? "
                 + "order by USER_ID,START_TIME desc")) {
             stmt.setInt(1, user.getId());
             stmt.setTimestamp(2, new Timestamp(from.getTime()));

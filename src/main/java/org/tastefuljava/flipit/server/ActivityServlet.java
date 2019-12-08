@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.tastefuljava.flipit.data.Activity;
-import org.tastefuljava.flipit.data.Facet;
 import org.tastefuljava.flipit.data.User;
 import org.tastefuljava.flipit.persistence.Persistence;
 import org.tastefuljava.jsonia.JSon;
@@ -84,7 +83,7 @@ public class ActivityServlet extends HttpServlet {
                 to = new Date();
             }
             if (from == null) {
-                from = Util.addDays(to, -1);
+                from = Util.startOfDay(to);
             }
             List<Activity> activities
                     = pm.queryActivities(user, from, to);
@@ -101,7 +100,7 @@ public class ActivityServlet extends HttpServlet {
             Activity act = new Activity();
             User user = pm.getUser(req.getRemoteUser());
             String s = req.getParameter("facet");
-            if (s == null) {
+            if (Util.isBlank(s)) {
                 throw new HttpException(
                         HttpServletResponse.SC_BAD_REQUEST,
                         "Invalid request: facet is null");
