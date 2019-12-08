@@ -22,7 +22,7 @@
                         </article>
                         <article class="tile is-child">
                             <h1 class="title">
-                                Facettes
+                                Résumé
                             </h1>
                             <div class="facets"></div>
                         </article>
@@ -42,9 +42,10 @@
             <table class="table">
             <tbody>
             {{#each facets}}
-            <tr>
+            <tr id="r{{@index}}">
             <td><span class="fas">{{symbol}}</span></td>
             <td>{{label}}</td>
+            <td class="summary"></td>
             </tr>
             {{/each}}
             </tbody>

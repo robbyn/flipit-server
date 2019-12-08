@@ -159,7 +159,8 @@ public class Persistence implements AutoCloseable {
         }
     }
 
-    public List<Activity> queryActivities(User user, Date from, Date to) {
+    public List<Activity> queryActivities(User user, Date from, Date to,
+            boolean reverse) {
         if (user == null) {
             throw new IllegalArgumentException(
                     "Incomplete activity query: user is null");
@@ -170,11 +171,14 @@ public class Persistence implements AutoCloseable {
             throw new IllegalArgumentException(
                     "Incomplete activity query: to is null");
         }
-        try (PreparedStatement stmt = cnt.prepareStatement(
-                "select USER_ID,START_TIME,FACET_NUMBER,COMMENT "
+        String sql = "select USER_ID,START_TIME,FACET_NUMBER,COMMENT "
                 + "from activities "
                 + "where USER_ID=? and START_TIME>=? and START_TIME <? "
-                + "order by USER_ID,START_TIME desc")) {
+                + "order by USER_ID,START_TIME";
+        if (reverse) {
+            sql += " desc";
+        }
+        try (PreparedStatement stmt = cnt.prepareStatement(sql)) {
             stmt.setInt(1, user.getId());
             stmt.setTimestamp(2, new Timestamp(from.getTime()));
             stmt.setTimestamp(3, new Timestamp(to.getTime()));

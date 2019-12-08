@@ -36,7 +36,7 @@ $(function() {
         console.log(table);
         $(".facets").html(table);
         drawPentagon("");
-        loadActivities(user);
+        refreshActivities();
     });
 
     function loadActivities(user) {
@@ -55,14 +55,30 @@ $(function() {
             const symbol = (activities && activities.length > 0) ?
                 facetSymbol(user, activities[0].facetNumber) : "";
             $("#facetSymbol").text(symbol);
-            setTimeout(refreshActivities, 2000);
+        });
+    }
+
+    function loadSummary(user) {
+        $.ajax({
+            type: "GET",
+            url: "api/activity/summary",
+            dataType: "json"
+        }).done(function(summary) {
+            console.log(summary);
+            if (summary && summary.length > 0) {
+                for (let i = 0; i < summary.length; ++i) {
+                    $("#r" + i + " .summary").text(summary[i]);
+                }
+            }
         });
     }
 
     function refreshActivities() {
         if (currentUser) {
             loadActivities(currentUser);
+            loadSummary(currentUser);
         }
+        setTimeout(refreshActivities, 2000);
     }
 
     function facetSymbol(user, facetNumber) {
