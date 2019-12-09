@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 6 Dec 2019, 07:40:12
+    Author     : maurice
+*/
+.activities td, .facets td {
+  padding: 0 1em 0 1em;
+}
+
+#pentagon {
+  width: 100%;
+  height: 100%;
+  font-family: "Font Awesome 5 Pro";
+  font-weight: 900;
+  font-size: 5em;
+}
+
+/*# sourceMappingURL=index.css.map */
