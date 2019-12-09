@@ -78,7 +78,7 @@ $(function() {
             loadActivities(currentUser);
             loadSummary(currentUser);
         }
-//        setTimeout(refreshActivities, 2000);
+        setTimeout(refreshActivities, 2000);
     }
 
     function facetSymbol(user, facetNumber) {
