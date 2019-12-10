@@ -31,9 +31,7 @@ $(function() {
         dataType: "json"
     }).done(function(user) {
         currentUser = user;
-        console.log(user);
         const table = templates.facetTable(user);
-        console.log(table);
         $(".facets").html(table);
         drawPentagon("");
         refreshActivities();
@@ -45,12 +43,10 @@ $(function() {
             url: "api/activity",
             dataType: "json"
         }).done(function(activities) {
-            console.log(activities);
             const table = templates.activityTable({
                 user: user,
                 activities: activities
             });
-            console.log(table);
             $(".activities").html(table);
             const symbol = (activities && activities.length > 0) ?
                 facetSymbol(user, activities[0].facetNumber) : "";
@@ -64,7 +60,6 @@ $(function() {
             url: "api/activity/summary",
             dataType: "json"
         }).done(function(summary) {
-            console.log(summary);
             if (summary && summary.length > 0) {
                 for (let i = 0; i < summary.length; ++i) {
                     $("#r" + i + " .summary").text(summary[i]);
