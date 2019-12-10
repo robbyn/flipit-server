@@ -5,10 +5,9 @@
         <title>FlipIt Tableau de Bord</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/all.css">
         <link rel="stylesheet" href="css/bulma.css">
         <link rel="stylesheet" href="css/index.css">
-        <script src="https://kit.fontawesome.com/1bebc5f4f2.js" crossorigin="anonymous"></script>
-        <!-- script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script -->
     </head>
     <body>
         <section class="section">
